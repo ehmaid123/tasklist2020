@@ -1,7 +1,11 @@
 <?php
 
-Route::get('/', function () {
-    return view('welcome');
-});
-Route::get('tasks','TaskController@index');
+
+
+Route::get('/','TaskController@index');
+Route::get('tasks/{id}','TaskController@show');
+
+Route::get('store','TaskController@store');
+Route::get('delete/{id}','TaskController@destroy');
+
 

@@ -7,10 +7,6 @@
     <title>Document</title>
 </head>
 <body>
-     <ul>
-     @foreach($data as $value)
-     <li>{{$value->name}]</li>
-     @endforeach
-     </ul>
+    <h1>{{$task->name}}</h1>
 </body>
 </html>
