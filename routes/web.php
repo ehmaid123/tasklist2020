@@ -5,7 +5,11 @@
 Route::get('/','TaskController@index');
 Route::get('tasks/{id}','TaskController@show');
 
-Route::get('store','TaskController@store');
-Route::get('delete/{id}','TaskController@destroy');
+Route::post('store','TaskController@store');
+Route::delete('delete/{id}','TaskController@destroy');
+
+
+Route::put('edit/{id}','TaskController@edit');
+Route::patch('updata/{id}','TaskController@updata');
 
 
