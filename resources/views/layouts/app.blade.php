@@ -25,8 +25,6 @@
         }
     </style>
 </head>
-
-
 <body id="app-layout">
     <nav class="navbar navbar-default">
         <div class="container">
@@ -43,8 +41,8 @@
 
     <div class="container">
         @yield('content')
+    
 </div>
-
     
 </body>
 </html>

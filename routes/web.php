@@ -1,15 +1,10 @@
 <?php
 
-
-
 Route::get('/','TaskController@index');
-Route::get('tasks/{id}','TaskController@show');
+Route::get('task/{id}','TaskController@show');
 
-Route::post('store','TaskController@store');
+Route::post('store ToTaskController','TaskController@store')->name('store');
 Route::delete('delete/{id}','TaskController@destroy');
 
-
 Route::put('edit/{id}','TaskController@edit');
-Route::patch('updata/{id}','TaskController@updata');
-
-
+Route::patch('update/{id}','TaskController@update');

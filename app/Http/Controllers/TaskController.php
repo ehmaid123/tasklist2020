@@ -1,44 +1,59 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\task;
+
+use App\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+
 
 class TaskController extends Controller
 {
     public function index(){
 
-        //$tasks=DB::table('tasks')->get();
-        $tasks = task::orderBy('created_at')->get();
-
-        return view('tasks.index',compact('tasks'));
+       // $task=DB::table('task')->get();
+        $task = Task::orderBy('created_at')->get();
+        
+        return view('task.index',compact('task'));
     }
-    public function show($id){
-        //$task=DB::table('tasks')->find($id);
-        $task=task::where('id',$id)->get();
-        return view('tasks.show',compact('task'));
 
-    }
-    public function store(Request $request){
-       
-        $request->validate([
-            'name'=> 'requireed|min:10 | max:255',
+     public function show($id){
+        // $task=DB::table(task)->find($id);
+         $task = Task::where('id',$id)->get();
 
-        ]);
-        $task = new task();
-        $task->name = $request->name;
-        $task-> save();
+         return view('task.show',compact('task'));
 
-        return redirect()->back();
+     }
+     public function store(Request $request){
+       //  dd($request);
+        //      DB::table('task')->insert([
+        //      'title' => $request->title,
+        //      'created_at'=>now(),
+        //      'updated_at'=>now(),
+        
+        //  ]); 
+            $request->validate([
+                'title' => 'required|max:255',
 
-    }
+            ]);
+              $task = new Task();
+              $task->title = $request->title;
+              $task->save();   
+
+                return redirect()->back();
+
+   }
     public function destroy($id){
-        //DB::table('tasks')->where('id','=',$id)->delete();
-        $task = task::find($id);
+          // DB::table('task')->where('id' , '=' , $id)->delete();
+                $task =Task::find($id);
+                $task->delete();
 
-        $task->delete();
-        return redirect()->back();
+           return redirect()->back();
+        }
+
+    public function edit($id){
+            return view('task.edit',compact('task'));
     }
-    
-}
+
+    }
+
