@@ -1,59 +1,63 @@
 <?php
 
+
 namespace App\Http\Controllers;
 
 use App\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-
 class TaskController extends Controller
 {
-    public function index(){
+    public function home(){
+        $task =  Task::all();
+        return view('tasks.home',compact('tasks'));
+    }  
 
-       // $task=DB::table('task')->get();
-        $task = Task::orderBy('created_at')->get();
-        
-        return view('task.index',compact('task'));
+    public function show($id){
+
+        $task = Task::where('id',$id)->get();
+
+        return view('tasks.show',compact('task'));
     }
 
-     public function show($id){
-        // $task=DB::table(task)->find($id);
-         $task = Task::where('id',$id)->get();
+    public function store(Request $request){
+        $request->validate([
+                'name' => 'required|max:255',
+        ]);
 
-         return view('task.show',compact('task'));
+        $task = new Task();
+        $task->name = $request->name;
+        $task->save();
 
-     }
-     public function store(Request $request){
-       //  dd($request);
-        //      DB::table('task')->insert([
-        //      'title' => $request->title,
-        //      'created_at'=>now(),
-        //      'updated_at'=>now(),
-        
-        //  ]); 
-            $request->validate([
-                'title' => 'required|max:255',
+        return redirect()->back();
+    }
 
-            ]);
-              $task = new Task();
-              $task->title = $request->title;
-              $task->save();   
-
-                return redirect()->back();
-
-   }
     public function destroy($id){
-          // DB::table('task')->where('id' , '=' , $id)->delete();
-                $task =Task::find($id);
-                $task->delete();
+        $task=Task::find($id);
+        $task->delete();
 
-           return redirect()->back();
-        }
+        return redirect()->back();
+    }
 
     public function edit($id){
-            return view('task.edit',compact('task'));
+        $task = Task::findOrFail($id);
+        $tasks = Task::orderBy('created_at')->get();
+        return view('tasks.home',compact('task','tasks'));
+    }
+    
+    public function update(Request $request,$id){
+    
+    
+        $request->validate([
+            'name' => 'required|max:255',
+        ]);
+        $affected = Task::find($id);
+        $affected->name = $request->name;
+        $affected->updated_at = now();
+        $affected->save();
+    
+        return redirect('/home');
     }
 
-    }
-
+}
